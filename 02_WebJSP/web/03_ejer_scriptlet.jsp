@@ -13,7 +13,9 @@
         <link rel="stylesheet" href="miestilo.css">
     </head>
     <body>
-        <h1>Tabla de multiplicar del numero 7</h1>
+        <%@include file="cabecera.jsp" %>
+        <%= dameTitulo("Tabla de multiplicar del numero 7")%>
+        <!--<h1>Tabla de multiplicar del numero 7</h1>-->
         <%!
         //Declaracion de variables
         int i, j;

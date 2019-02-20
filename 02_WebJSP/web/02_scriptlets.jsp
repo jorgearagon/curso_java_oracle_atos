@@ -12,7 +12,9 @@
         <title>Scriptlet de JSP</title>
     </head>
     <body>
-        <h1>Scriptlet de JSP</h1>
+        <%@include file="cabecera.jsp" %>
+        <%= dameTitulo("Scriptlet de JSP")%>
+        <!--<h1>Scriptlet de JSP</h1>-->
         <%
             int numero = 7;
             int factorial = 1;
