@@ -14,6 +14,10 @@
     </head>
     <body>
         <h1>Tabla de multiplicar del numero 7</h1>
+        <%!
+        //Declaracion de variables
+        int i, j;
+        %>
         <%-- Muestra una Tabla con sus TRs y sus TDs de la tabla de multiplicar del 7 --%>
         <table>
             <tr>
@@ -22,7 +26,7 @@
             </tr>
             <%
             int numero = 7;
-            for (int i = 0; i <=10; i++)
+            for (i = 0; i <=10; i++)
             {%>
                 <tr>
                     <td><%= numero +" x "+ i%></td>
@@ -36,17 +40,20 @@
         <h1>Tabla de multiplicar del numero 1 al 10</h1>
         <%-- Muestra una Tabla con sus TRs y sus TDs de la tabla de multiplicar del 7 --%>
         <%
-        for (int i = 1; i <=10; i++)
+        for (i = 1; i <=10; i++)
         {%>
         <div  class="flotar">
         <h2>Tabla del <%=i%></h2>
         <table>
             <tr>
+                <th style="text-align: center" colspan="2">Tabla del x</th>
+            </tr>
+            <tr>
                 <th>Expresion</th>
                 <th>Resultado</th>
             </tr>
             <%
-            for (int j = 0; j <=10; j++)
+            for (j = 0; j <=10; j++)
             {%>
                 <tr>
                     <td><%= i +" x "+ j%></td>
