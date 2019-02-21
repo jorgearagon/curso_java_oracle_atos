@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.logreg;
+package modelo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class Persona {
     private int edad;
     private String email;
     private String password;
-    List<Persona> registros = new ArrayList<>();
+    //List<Persona> registros = new ArrayList<>();
 
     public Persona(String nombre, int edad, String email, String password) {
         this.nombre = nombre;

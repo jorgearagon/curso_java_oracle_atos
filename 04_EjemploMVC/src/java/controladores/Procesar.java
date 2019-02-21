@@ -7,11 +7,14 @@ package controladores;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Persona;
+import modelo.logica.GestionPersona;
+import modelo.persistencia.FicheroPersona;
 
 /**
  *
@@ -33,22 +36,55 @@ public class Procesar extends HttpServlet {
         String nombre = request.getParameter("nombre");
         String edad = request.getParameter("edad");
         
-        if (nombre.equals("") || edad.equals(""))
-        {
-            request.getRequestDispatcher("errorcampos.jsp").forward(request, response);
-        }
-        else
-        {
-            try
-            {
-                int iEdad = Integer.parseInt(edad);
-                Persona p1 = new Persona(nombre,iEdad);
-                request.getSession().setAttribute("persona1", p1);
+//        if (nombre.equals("") || edad.equals(""))
+//        {
+//            request.getRequestDispatcher("errorcampos.jsp").forward(request, response);
+//        }
+//        else
+//        {
+//            try
+//            {
+//                int iEdad = Integer.parseInt(edad);
+//                Persona p1 = new Persona(nombre,iEdad);
+//                request.getSession().setAttribute("persona1", p1);
+//                request.getRequestDispatcher("exito.jsp").forward(request, response);
+//            }catch(NumberFormatException nfe){
+//                request.getRequestDispatcher("errornumero.jsp").forward(request, response);
+//            }
+//        }
+        GestionPersona gp = GestionPersona.getInstacia();
+        GestionPersona.TipoResultado resultado;
+        resultado=gp.guardarPersona(nombre, edad);
+        switch(resultado){
+            case OK:
+                request.getSession().setAttribute("persona1", gp.getPersona());
                 request.getRequestDispatcher("exito.jsp").forward(request, response);
-            }catch(NumberFormatException nfe){
+                break;
+            case SIN_VALORES:
+                request.getRequestDispatcher("errorcampos.jsp").forward(request, response);
+                break;
+            case EDAD_MAL:
                 request.getRequestDispatcher("errornumero.jsp").forward(request, response);
-            }
+                break;
+            case ERR_IO:
+                request.getRequestDispatcher("errorio.jsp").forward(request, response);
+                break;
         }
+        //System.out.println(gp.guardarPersona(nombre, edad));
+        //MI FORMA DE HACERLO
+//        if(gp.guardarPersona(nombre, edad) == GestionPersona.TipoResultado.OK)
+//        {
+//            request.getSession().setAttribute("persona1", gp.getPersona());
+//            request.getRequestDispatcher("exito.jsp").forward(request, response);
+//        }
+//        else if(gp.guardarPersona(nombre, edad) == GestionPersona.TipoResultado.SIN_VALORES)
+//        {
+//            request.getRequestDispatcher("errorcampos.jsp").forward(request, response);
+//        }
+//        else
+//        {
+//            request.getRequestDispatcher("errornumero.jsp").forward(request, response);
+//        }
     }
 
     /**

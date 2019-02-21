@@ -13,16 +13,14 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <%
-            out.println("<form name='form1' method='post' action='registro.jsp'>");
-            out.println("<table border='1'>");
-            out.println("<tr><td>Nombre:</td><td><input type='text' name='nom' id='nom' size='25' value=''/></td></tr>");
-            out.println("<tr><td>Edad:</td><td><input type='number' name='eda' id='eda' size='25' value=''/></td></tr>");
-            out.println("<tr><td>Email:</td><td><input type='text' name='email' id='email' size='25' value=''/></td></tr>");
-            out.println("<tr><td>Password:</td><td><input type='password' name='pass' id='pass' size='25' value='' required='required'/></td></tr>");
-            out.println("</table>");
-            out.println("<input type='submit' value='Enviar'/>");
-            out.println("</form>");
-        %>
+        <form name="form" method="get" action="procesar.do">
+            <table border="1">
+                <tr><td>Nombre:</td><td><input type="text" name="nom" id="nom" size="25" value=""/></td></tr>
+                <tr><td>Edad:</td><td><input type="number" name="eda" id="eda" size="25" value=""/></td></tr>
+                <tr><td>Email:</td><td><input type="text" name="email" id="email" size="25" value=""/></td></tr>
+                <tr><td>Password:</td><td><input type="password" name="pass" id="pass" size="25" value="" required="required"/></td></tr>
+            </table>
+            <input type="submit" value="Enviar"/>
+        </form>
     </body>
 </html>

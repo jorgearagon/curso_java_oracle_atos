@@ -12,7 +12,14 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        
+        <h1>Introduce tus datos</h1>
+        <form name="form1" method="post" action="procesar.do">
+            <table border="1">
+                <tr><td>Email:</td><td><input type="text" name="email" id="email" size="25" value=""/></td></tr>
+                <tr><td>Password:</td><td><input type="password" name="pass" id="pass" size="25" value=""/></td></tr>
+                </table>
+            <input type="submit" value="Enviar"/>
+            <a href="registro">Registrarse</a>
+        </form>
     </body>
 </html>
