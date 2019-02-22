@@ -9,11 +9,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Login</title>
     </head>
     <body>
+        <%@include file="cabecera.jsp" %>
+        <%=dameTitulo("Introduce tus Datos")%>
         <h1>Introduce tus datos</h1>
-        <form name="form1" method="post" action="procesar.do">
+        <form name="form1" method="get" action="procesar.do">
             <table border="1">
                 <tr><td>Email:</td><td><input type="text" name="email" id="email" size="25" value=""/></td></tr>
                 <tr><td>Password:</td><td><input type="password" name="pass" id="pass" size="25" value=""/></td></tr>

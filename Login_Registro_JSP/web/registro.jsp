@@ -12,8 +12,9 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <form name="form" method="get" action="procesar.do">
+        <%@include file="cabecera.jsp" %>
+        <%=dameTitulo("Registrate")%>
+        <form name="form" method="post" action="procesar.do">
             <table border="1">
                 <tr><td>Nombre:</td><td><input type="text" name="nom" id="nom" size="25" value=""/></td></tr>
                 <tr><td>Edad:</td><td><input type="number" name="eda" id="eda" size="25" value=""/></td></tr>

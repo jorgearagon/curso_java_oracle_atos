@@ -29,32 +29,49 @@ public class Procesar extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String nombre = request.getParameter("nom");
-        int edad = Integer.parseInt(request.getParameter("eda"));
+        String edad = request.getParameter("eda");
         String email = request.getParameter("email");
         String pass = request.getParameter("pass");
         
         GestionUsuarios gu = GestionUsuarios.getInstancia();
         GestionUsuarios.TipoResultado resultado;
-        resultado=gu.guardarUsuario(nombre, email, email, pass);
+        resultado=gu.guardarUsuario(nombre, edad, email, pass);
         switch(resultado){
             case OK:
                 //request.getSession().setAttribute("persona1", gp.getPersona());
-                request.getRequestDispatcher("exito.jsp").forward(request, response);
+                request.getRequestDispatcher("registroexito.jsp").forward(request, response);
                 break;
-//            case SIN_VALORES:
-//                request.getRequestDispatcher("errorcampos.jsp").forward(request, response);
-//                break;
+            case NOM_MAL:
+                request.getRequestDispatcher("errornombre.jsp").forward(request, response);
+                break;
             case EDAD_MAL:
-                request.getRequestDispatcher("errornumero.jsp").forward(request, response);
+                request.getRequestDispatcher("erroredad.jsp").forward(request, response);
                 break;
             case ERR_IO:
                 request.getRequestDispatcher("errorio.jsp").forward(request, response);
                 break;
+            case EMAIL_MAL:
+                request.getRequestDispatcher("erroremail.jsp").forward(request, response);
+                break;
+            case PASS_MAL:
+                request.getRequestDispatcher("errorpass.jsp").forward(request, response);
+                break;
         }
     }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String email = request.getParameter("email");
+        String pass = request.getParameter("pass");
+        GestionUsuarios gu = GestionUsuarios.getInstancia();
+        GestionUsuarios.TipoResultado resultado;
+//        resultado=gu.
+    }
+    
+    
     /**
      * Returns a short description of the servlet.
      *

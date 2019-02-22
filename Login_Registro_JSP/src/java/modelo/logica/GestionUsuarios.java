@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import modelo.Persona;
 import modelo.persistencia.ArrayUsuario;
+import modelo.persistencia.JDBCUsuario;
 
 /**
  *
@@ -16,7 +17,7 @@ import modelo.persistencia.ArrayUsuario;
  */
 public class GestionUsuarios {
     private static GestionUsuarios instancia=null;
-    private IUsuarioDAO daoUsuarioDAO = ArrayUsuario.getInstancia();
+    private IUsuarioDAO daoUsuarioDAO = new JDBCUsuario();
 
     private GestionUsuarios() {
     }
@@ -46,7 +47,7 @@ public class GestionUsuarios {
     }
     
     private boolean validarPass(String pass){
-        Pattern pc=Pattern.compile("^[A-Za-z\\d$@$!%*?&]{8,15}$");
+        Pattern pc=Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]{8,15}");
         Matcher m=pc.matcher(pass);
         if(m.matches())
         {
@@ -109,4 +110,9 @@ public class GestionUsuarios {
         }
         
     }
+    
+//    public TipoResultado leerUsuario(String email, String pass){
+//        
+//        
+//    }
 }
