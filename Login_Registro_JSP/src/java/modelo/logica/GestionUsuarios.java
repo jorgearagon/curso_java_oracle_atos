@@ -30,7 +30,7 @@ public class GestionUsuarios {
         return instancia;
     }
     
-    public enum TipoResultado{OK, NOM_MAL, EDAD_MAL, ERR_IO, EMAIL_MAL, PASS_MAL};
+    public enum TipoResultado{OK, NOM_MAL, EDAD_MAL, ERR_IO, EMAIL_MAL, PASS_MAL, SIN_VALORES, USU_NOEXISTE};
     
     private boolean validarEmail(String em){
         Pattern pc=Pattern.compile("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@" +
@@ -111,8 +111,33 @@ public class GestionUsuarios {
         
     }
     
-//    public TipoResultado leerUsuario(String email, String pass){
-//        
-//        
-//    }
+    private boolean validarDatosUsuario(String email, String pass){
+        //return !nombre.equals("") && !edad.equals("");
+        if(email.equals("") || pass.equals(""))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    
+    public TipoResultado leerUsuario(String email, String pass){
+        if(validarDatosUsuario(email, pass))
+        {
+            if (daoUsuarioDAO.leerUsuarios(email, pass))
+            {
+                return TipoResultado.OK;
+            }
+            else
+            {
+                return TipoResultado.USU_NOEXISTE;
+            }
+        }
+        else
+        {
+            return TipoResultado.SIN_VALORES;
+        }
+    }
 }

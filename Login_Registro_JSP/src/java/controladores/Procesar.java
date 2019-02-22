@@ -68,7 +68,28 @@ public class Procesar extends HttpServlet {
         String pass = request.getParameter("pass");
         GestionUsuarios gu = GestionUsuarios.getInstancia();
         GestionUsuarios.TipoResultado resultado;
-//        resultado=gu.
+        resultado=gu.leerUsuario(email, pass);
+        switch(resultado){
+            case OK:
+                request.getRequestDispatcher("loginexito.jsp").forward(request, response);
+                break;
+            case USU_NOEXISTE:
+                request.getRequestDispatcher("errorusuario.jsp").forward(request, response);
+                break;
+            case SIN_VALORES:
+                request.getRequestDispatcher("errorcampos.jsp").forward(request, response);
+                break;
+            default:
+                request.getRequestDispatcher("errorempass.jsp").forward(request, response);
+                break;
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String email = request.getParameter("nombre");
+        int edad = Integer.parseInt(request.getParameter("edad"));
+        request.getRequestDispatcher("probaractualizar.jsp").forward(request, response);
     }
     
     

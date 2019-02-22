@@ -61,8 +61,51 @@ public class JDBCUsuario implements IUsuarioDAO{
     }
 
     @Override
-    public Persona leerUsuarios() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean leerUsuarios(String em, String pass) {
+        String url = "jdbc:derby://localhost:1527/UsuariosDB";
+        String username = "test";
+        String password = "test";
+        try (Connection con = DriverManager.getConnection(url, username, password)) {
+            String query = "SELECT email,pass FROM Usuarios";
+            PreparedStatement pstmt = con.prepareStatement(query);
+            ResultSet rs=pstmt.executeQuery();
+            while(rs.next())
+            {
+                if(em.equals(rs.getString(1)) && pass.equals(rs.getString(2)))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }catch(SQLException e){
+            return false;
+        }
     }
+    
+//    public List<Movie> getAll() 
+//    {
+//        List<Movie> list_all = new ArrayList<>();
+//        String url = "jdbc:derby://localhost:1527/MovieDB";
+//        String username = "test";
+//        String password = "test";
+//        // Create a simple query
+//        String query = "SELECT * FROM Movie";
+//        // A try-with-resources example
+//        // Connection and Statement implement java.lan.AutoCloseable
+//        try (Connection con = DriverManager.getConnection(url, username, password)) {
+//            PreparedStatement pstmt = con.prepareStatement(query);
+//            ResultSet rs=pstmt.executeQuery();
+//            while (rs.next()) {
+//                String pelicula = rs.getString("title");
+//                int year = rs.getInt("year_");
+//                Movie m = new Movie(pelicula, year);
+//                list_all.add(m);
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("Exception creating connection: " + e);
+//            System.exit(0);
+//        }
+//        return list_all;
+//    }
     
 }

@@ -14,5 +14,5 @@ import modelo.Persona;
 public interface IUsuarioDAO {
     boolean guardarUsuario(Persona per);
     
-    Persona leerUsuarios();
+    boolean leerUsuarios(String em, String pass);
 }

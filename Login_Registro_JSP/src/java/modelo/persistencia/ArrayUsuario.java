@@ -45,10 +45,10 @@ public class ArrayUsuario implements IUsuarioDAO{
         return true;
     }
 
-    @Override
-    public Persona leerUsuarios() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+////    @Override
+////    public Persona leerUsuarios() {
+////        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+////    }
     
 //    public List<Persona> getRegistros() {
 //        return registros;
@@ -72,4 +72,9 @@ public class ArrayUsuario implements IUsuarioDAO{
 //            return false;
 //        }
 //    }
+
+    @Override
+    public boolean leerUsuarios(String em, String pass) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
