@@ -146,14 +146,43 @@ public class GestionUsuarios {
 //        {
         try
         {
-            int iEdad2 = Integer.parseInt(edad);
-            if (daoUsuarioDAO.actualizarUsuario(new Persona(nombre, iEdad2, email, pass), email_actual))
+            if(validarNombre(nombre))
             {
-                return TipoResultado.OK;
+                if(validarEdad(edad))
+                {
+                    if(validarEmail(email))
+                    {
+                        if(validarPass(pass))
+                        {
+                            int iEdad2 = Integer.parseInt(edad);
+                            if (daoUsuarioDAO.actualizarUsuario(new Persona(nombre, iEdad2, email, pass), email_actual))
+                            {
+                                return TipoResultado.OK;
+                            }
+                            else
+                            {
+                                return TipoResultado.USU_NOEXISTE;
+                            }
+                            }
+                        else
+                        {
+                            return TipoResultado.PASS_MAL;
+                        }
+                    }
+                    else
+                    {
+                        return TipoResultado.EMAIL_MAL;
+                    }
+
+                }
+                else
+                {
+                    return TipoResultado.EDAD_MAL;
+                }
             }
             else
             {
-                return TipoResultado.USU_NOEXISTE;
+                return TipoResultado.NOM_MAL;
             }
         }catch(NumberFormatException nfe){
             System.out.println(nfe.getMessage());

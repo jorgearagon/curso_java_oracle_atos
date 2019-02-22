@@ -87,13 +87,6 @@ public class JDBCUsuario implements IUsuarioDAO{
     public boolean actualizarUsuario(Persona per, String em_actual) {
         
         try (Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/UsuariosDB", "test", "test")) {
-            //String query = "SELECT email,pass FROM Usuarios";
-            //Obtengo el ID
-            // query = "SELECT id FROM Usuarios where email=?";
-//            PreparedStatement pstmt = con.prepareStatement(query);
-//            pstmt.setString(1, per.getEmail());
-//            ResultSet rs=pstmt.executeQuery();
-//            int id = rs.getInt(1);
             int id=0;
             Statement st=con.createStatement();
             ResultSet rs=st.executeQuery("SELECT id FROM Usuarios where email='"+em_actual+"'");
@@ -109,19 +102,10 @@ public class JDBCUsuario implements IUsuarioDAO{
             pstmt2.setString(4, per.getPassword());
             pstmt2.setInt(5, id);
             pstmt2.executeUpdate();
-//            ResultSet rs=pstmt.executeQuery();
-//            while(rs.next())
-//            {
-//                if(em.equals(rs.getString(1)) && pass.equals(rs.getString(2)))
-//                {
-//                    return true;
-//                }
-//            }
             return true;
         }catch(SQLException e){
             return false;
-        }
-        //st.executeUpdate("Update reserva set fecha_reserva='"+fecha_seleccionada_añadir+"', hora='"+hora_añadir+"', deporte='"+deporte_seleccionado+"', id_usuario='"+id_pers+"', id_poli='"+id_polidep+"' where fecha_reserva='"+fecha_inicial+"' and hora='"+hora_inicial+"' and id_poli='"+id_polidep_inicial+"'");
+        }        
     }
     
     @Override

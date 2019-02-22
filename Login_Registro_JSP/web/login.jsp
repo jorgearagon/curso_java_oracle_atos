@@ -23,7 +23,7 @@
                 <tr><td>Metodo:</td><td><input type="text" name="metodo" id="metodo" size="25" value="GET" readonly="readonly"/></td></tr>
                 </table>
             <input type="submit" value="Enviar"/>
-            <a href="registro">Registrarse</a>
+            <a href="registro.jsp">Registrarse</a>
         </form>
         <% }
         else

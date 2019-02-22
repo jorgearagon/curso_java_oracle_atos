@@ -34,64 +34,62 @@ public class Procesar extends HttpServlet {
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
         String metodo = request.getParameter("metodo");
-        if(metodo.equals("POST"))
-        {
-            String nombre = request.getParameter("nom");
-            String edad = request.getParameter("eda");
-            String email = request.getParameter("email");
-            String pass = request.getParameter("pass");
-
-            GestionUsuarios gu = GestionUsuarios.getInstancia();
-            GestionUsuarios.TipoResultado resultado;
-            resultado=gu.guardarUsuario(nombre, edad, email, pass);
-            switch(resultado){
-                case OK:
-                    //request.getSession().setAttribute("persona1", gp.getPersona());
-                    request.getRequestDispatcher("registroexito.jsp").forward(request, response);
-                    break;
-                case NOM_MAL:
-                    request.getRequestDispatcher("errornombre.jsp").forward(request, response);
-                    break;
-                case EDAD_MAL:
-                    request.getRequestDispatcher("erroredad.jsp").forward(request, response);
-                    break;
-                case ERR_IO:
-                    request.getRequestDispatcher("errorio.jsp").forward(request, response);
-                    break;
-                case EMAIL_MAL:
-                    request.getRequestDispatcher("erroremail.jsp").forward(request, response);
-                    break;
-                case PASS_MAL:
-                    request.getRequestDispatcher("errorpass.jsp").forward(request, response);
-                    break;
+        switch (metodo) {
+            case "POST":
+                {
+                    String nombre = request.getParameter("nom");
+                    String edad = request.getParameter("eda");
+                    String email = request.getParameter("email");
+                    String pass = request.getParameter("pass");
+                    GestionUsuarios gu = GestionUsuarios.getInstancia();
+                    GestionUsuarios.TipoResultado resultado;
+                    resultado=gu.guardarUsuario(nombre, edad, email, pass);
+                    switch(resultado){
+                        case OK:
+                            //request.getSession().setAttribute("persona1", gp.getPersona());
+                            request.getRequestDispatcher("registroexito.jsp").forward(request, response);
+                            break;
+                        case NOM_MAL:
+                            request.getRequestDispatcher("errornombre.jsp").forward(request, response);
+                            break;
+                        case EDAD_MAL:
+                            request.getRequestDispatcher("erroredad.jsp").forward(request, response);
+                            break;
+                        case ERR_IO:
+                            request.getRequestDispatcher("errorio.jsp").forward(request, response);
+                            break;
+                        case EMAIL_MAL:
+                            request.getRequestDispatcher("erroremail.jsp").forward(request, response);
+                            break;
+                        case PASS_MAL:
+                            request.getRequestDispatcher("errorpass.jsp").forward(request, response);
+                            break;
+                    }       break;
+                }
+            case "GET":
+            {
+                String email = request.getParameter("email");
+                String pass = request.getParameter("pass");
+                GestionUsuarios gu = GestionUsuarios.getInstancia();
+                GestionUsuarios.TipoResultado resultado;
+                resultado=gu.leerUsuario(email, pass);
+                switch(resultado){
+                    case OK:
+                        sesion.setAttribute("email", email);
+                        request.getRequestDispatcher("loginexito.jsp").forward(request, response);
+                        break;
+                    case USU_NOEXISTE:
+                        request.getRequestDispatcher("errorusuario.jsp").forward(request, response);
+                        break;
+                    case SIN_VALORES:
+                        request.getRequestDispatcher("errorcampos.jsp").forward(request, response);
+                        break;
+                    default:
+                        request.getRequestDispatcher("errorempass.jsp").forward(request, response);
+                        break;
+                }       break;
             }
-        }
-        else
-        if(metodo.equals("GET"))
-        {
-            String email = request.getParameter("email");
-            String pass = request.getParameter("pass");
-            GestionUsuarios gu = GestionUsuarios.getInstancia();
-            GestionUsuarios.TipoResultado resultado;
-            resultado=gu.leerUsuario(email, pass);
-            switch(resultado){
-                case OK:
-                    sesion.setAttribute("email", email);
-                    request.getRequestDispatcher("loginexito.jsp").forward(request, response);
-                    break;
-                case USU_NOEXISTE:
-                    request.getRequestDispatcher("errorusuario.jsp").forward(request, response);
-                    break;
-                case SIN_VALORES:
-                    request.getRequestDispatcher("errorcampos.jsp").forward(request, response);
-                    break;
-                default:
-                    request.getRequestDispatcher("errorempass.jsp").forward(request, response);
-                    break;
-            }
-        }
-        else
-            if(metodo.equals("PUT"))
+            case "PUT":
             {
                 String nombre = request.getParameter("nombre");
                 String edad = request.getParameter("edad");
@@ -108,13 +106,24 @@ public class Procesar extends HttpServlet {
                         sesion.setAttribute("email", email);
                         request.getRequestDispatcher("actualizarexito.jsp").forward(request, response);
                         break;
+                    case NOM_MAL:
+                            request.getRequestDispatcher("errornombre.jsp").forward(request, response);
+                            break;
+                    case EDAD_MAL:
+                        request.getRequestDispatcher("erroredad.jsp").forward(request, response);
+                        break;
                     case ERR_IO:
                         request.getRequestDispatcher("errorio.jsp").forward(request, response);
                         break;
-                }
+                    case EMAIL_MAL:
+                        request.getRequestDispatcher("erroremail.jsp").forward(request, response);
+                        break;
+                    case PASS_MAL:
+                        request.getRequestDispatcher("errorpass.jsp").forward(request, response);
+                        break;
+                }   break;
             }
-        else
-            if(metodo.equals("DELETE"))
+            case "DELETE":
             {
                 String email = request.getParameter("email");
                 GestionUsuarios gu = GestionUsuarios.getInstancia();
@@ -129,8 +138,9 @@ public class Procesar extends HttpServlet {
                     case ERR_IO:
                         request.getRequestDispatcher("errorio.jsp").forward(request, response);
                         break;
+                }   break;
                 }
-            }
+        }
     }
 
     @Override
