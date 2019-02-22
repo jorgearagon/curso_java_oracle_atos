@@ -13,6 +13,6 @@
     </head>
     <body>
         <h1>Login con Exito</h1>
-        <a href="index.html">Volver al Index</a>
+        <a href="index.jsp">Volver al Index</a>
     </body>
 </html>

@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import modelo.logica.GestionUsuarios;
 
 /**
@@ -31,58 +32,130 @@ public class Procesar extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String nombre = request.getParameter("nom");
-        String edad = request.getParameter("eda");
-        String email = request.getParameter("email");
-        String pass = request.getParameter("pass");
-        
-        GestionUsuarios gu = GestionUsuarios.getInstancia();
-        GestionUsuarios.TipoResultado resultado;
-        resultado=gu.guardarUsuario(nombre, edad, email, pass);
-        switch(resultado){
-            case OK:
-                //request.getSession().setAttribute("persona1", gp.getPersona());
-                request.getRequestDispatcher("registroexito.jsp").forward(request, response);
-                break;
-            case NOM_MAL:
-                request.getRequestDispatcher("errornombre.jsp").forward(request, response);
-                break;
-            case EDAD_MAL:
-                request.getRequestDispatcher("erroredad.jsp").forward(request, response);
-                break;
-            case ERR_IO:
-                request.getRequestDispatcher("errorio.jsp").forward(request, response);
-                break;
-            case EMAIL_MAL:
-                request.getRequestDispatcher("erroremail.jsp").forward(request, response);
-                break;
-            case PASS_MAL:
-                request.getRequestDispatcher("errorpass.jsp").forward(request, response);
-                break;
+        HttpSession sesion = request.getSession();
+        String metodo = request.getParameter("metodo");
+        if(metodo.equals("POST"))
+        {
+            String nombre = request.getParameter("nom");
+            String edad = request.getParameter("eda");
+            String email = request.getParameter("email");
+            String pass = request.getParameter("pass");
+
+            GestionUsuarios gu = GestionUsuarios.getInstancia();
+            GestionUsuarios.TipoResultado resultado;
+            resultado=gu.guardarUsuario(nombre, edad, email, pass);
+            switch(resultado){
+                case OK:
+                    //request.getSession().setAttribute("persona1", gp.getPersona());
+                    request.getRequestDispatcher("registroexito.jsp").forward(request, response);
+                    break;
+                case NOM_MAL:
+                    request.getRequestDispatcher("errornombre.jsp").forward(request, response);
+                    break;
+                case EDAD_MAL:
+                    request.getRequestDispatcher("erroredad.jsp").forward(request, response);
+                    break;
+                case ERR_IO:
+                    request.getRequestDispatcher("errorio.jsp").forward(request, response);
+                    break;
+                case EMAIL_MAL:
+                    request.getRequestDispatcher("erroremail.jsp").forward(request, response);
+                    break;
+                case PASS_MAL:
+                    request.getRequestDispatcher("errorpass.jsp").forward(request, response);
+                    break;
+            }
         }
+        else
+        if(metodo.equals("GET"))
+        {
+            String email = request.getParameter("email");
+            String pass = request.getParameter("pass");
+            GestionUsuarios gu = GestionUsuarios.getInstancia();
+            GestionUsuarios.TipoResultado resultado;
+            resultado=gu.leerUsuario(email, pass);
+            switch(resultado){
+                case OK:
+                    sesion.setAttribute("email", email);
+                    request.getRequestDispatcher("loginexito.jsp").forward(request, response);
+                    break;
+                case USU_NOEXISTE:
+                    request.getRequestDispatcher("errorusuario.jsp").forward(request, response);
+                    break;
+                case SIN_VALORES:
+                    request.getRequestDispatcher("errorcampos.jsp").forward(request, response);
+                    break;
+                default:
+                    request.getRequestDispatcher("errorempass.jsp").forward(request, response);
+                    break;
+            }
+        }
+        else
+            if(metodo.equals("PUT"))
+            {
+                String nombre = request.getParameter("nombre");
+                String edad = request.getParameter("edad");
+                String email = request.getParameter("email");
+                String pass = request.getParameter("pass");
+                String email_actual = sesion.getAttribute("email").toString();
+                GestionUsuarios gu = GestionUsuarios.getInstancia();
+                GestionUsuarios.TipoResultado resultado;
+                resultado=gu.actualizarUsuario(nombre, edad, email, pass, email_actual);
+                switch(resultado){
+                    case OK:
+                        //request.getSession().setAttribute("persona1", gp.getPersona());
+                        sesion.removeAttribute("email");
+                        sesion.setAttribute("email", email);
+                        request.getRequestDispatcher("actualizarexito.jsp").forward(request, response);
+                        break;
+                    case ERR_IO:
+                        request.getRequestDispatcher("errorio.jsp").forward(request, response);
+                        break;
+                }
+            }
+        else
+            if(metodo.equals("DELETE"))
+            {
+                String email = request.getParameter("email");
+                GestionUsuarios gu = GestionUsuarios.getInstancia();
+                GestionUsuarios.TipoResultado resultado;
+                resultado=gu.eliminarUsuario(email);
+                switch(resultado){
+                    case OK:
+                        //request.getSession().setAttribute("persona1", gp.getPersona());
+                        sesion.removeAttribute("email");
+                        request.getRequestDispatcher("eliminarexito.jsp").forward(request, response);
+                        break;
+                    case ERR_IO:
+                        request.getRequestDispatcher("errorio.jsp").forward(request, response);
+                        break;
+                }
+            }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String pass = request.getParameter("pass");
-        GestionUsuarios gu = GestionUsuarios.getInstancia();
-        GestionUsuarios.TipoResultado resultado;
-        resultado=gu.leerUsuario(email, pass);
-        switch(resultado){
-            case OK:
-                request.getRequestDispatcher("loginexito.jsp").forward(request, response);
-                break;
-            case USU_NOEXISTE:
-                request.getRequestDispatcher("errorusuario.jsp").forward(request, response);
-                break;
-            case SIN_VALORES:
-                request.getRequestDispatcher("errorcampos.jsp").forward(request, response);
-                break;
-            default:
-                request.getRequestDispatcher("errorempass.jsp").forward(request, response);
-                break;
-        }
+        
+//        String email = request.getParameter("email");
+//        String pass = request.getParameter("pass");
+//        GestionUsuarios gu = GestionUsuarios.getInstancia();
+//        GestionUsuarios.TipoResultado resultado;
+//        resultado=gu.leerUsuario(email, pass);
+//        switch(resultado){
+//            case OK:
+//                sesion.setAttribute("email", email);
+//                request.getRequestDispatcher("loginexito.jsp").forward(request, response);
+//                break;
+//            case USU_NOEXISTE:
+//                request.getRequestDispatcher("errorusuario.jsp").forward(request, response);
+//                break;
+//            case SIN_VALORES:
+//                request.getRequestDispatcher("errorcampos.jsp").forward(request, response);
+//                break;
+//            default:
+//                request.getRequestDispatcher("errorempass.jsp").forward(request, response);
+//                break;
+//        }
     }
 
     @Override

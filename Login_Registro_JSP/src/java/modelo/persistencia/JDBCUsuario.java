@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Persona;
@@ -82,30 +83,57 @@ public class JDBCUsuario implements IUsuarioDAO{
         }
     }
     
-//    public List<Movie> getAll() 
-//    {
-//        List<Movie> list_all = new ArrayList<>();
-//        String url = "jdbc:derby://localhost:1527/MovieDB";
-//        String username = "test";
-//        String password = "test";
-//        // Create a simple query
-//        String query = "SELECT * FROM Movie";
-//        // A try-with-resources example
-//        // Connection and Statement implement java.lan.AutoCloseable
-//        try (Connection con = DriverManager.getConnection(url, username, password)) {
+    @Override
+    public boolean actualizarUsuario(Persona per, String em_actual) {
+        
+        try (Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/UsuariosDB", "test", "test")) {
+            //String query = "SELECT email,pass FROM Usuarios";
+            //Obtengo el ID
+            // query = "SELECT id FROM Usuarios where email=?";
 //            PreparedStatement pstmt = con.prepareStatement(query);
+//            pstmt.setString(1, per.getEmail());
 //            ResultSet rs=pstmt.executeQuery();
-//            while (rs.next()) {
-//                String pelicula = rs.getString("title");
-//                int year = rs.getInt("year_");
-//                Movie m = new Movie(pelicula, year);
-//                list_all.add(m);
+//            int id = rs.getInt(1);
+            int id=0;
+            Statement st=con.createStatement();
+            ResultSet rs=st.executeQuery("SELECT id FROM Usuarios where email='"+em_actual+"'");
+            while(rs.next())
+            {
+                id=rs.getInt(1);
+            }
+            //Actualizo
+            PreparedStatement pstmt2 = con.prepareStatement("Update Usuarios set nombre=?, edad=?, email=?, pass=? where id=?");
+            pstmt2.setString(1, per.getNombre());
+            pstmt2.setInt(2, per.getEdad());
+            pstmt2.setString(3, per.getEmail());
+            pstmt2.setString(4, per.getPassword());
+            pstmt2.setInt(5, id);
+            pstmt2.executeUpdate();
+//            ResultSet rs=pstmt.executeQuery();
+//            while(rs.next())
+//            {
+//                if(em.equals(rs.getString(1)) && pass.equals(rs.getString(2)))
+//                {
+//                    return true;
+//                }
 //            }
-//        } catch (SQLException e) {
-//            System.out.println("Exception creating connection: " + e);
-//            System.exit(0);
-//        }
-//        return list_all;
-//    }
+            return true;
+        }catch(SQLException e){
+            return false;
+        }
+        //st.executeUpdate("Update reserva set fecha_reserva='"+fecha_seleccionada_añadir+"', hora='"+hora_añadir+"', deporte='"+deporte_seleccionado+"', id_usuario='"+id_pers+"', id_poli='"+id_polidep+"' where fecha_reserva='"+fecha_inicial+"' and hora='"+hora_inicial+"' and id_poli='"+id_polidep_inicial+"'");
+    }
+    
+    @Override
+    public boolean eliminarUsuario(String em) {
+        try (Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/UsuariosDB", "test", "test")) {
+            PreparedStatement pstmt2 = con.prepareStatement("Delete from Usuarios where email=?");
+            pstmt2.setString(1, em);
+            pstmt2.executeUpdate();
+            return true;
+        }catch(SQLException e){
+            return false;
+        }
+    }
     
 }

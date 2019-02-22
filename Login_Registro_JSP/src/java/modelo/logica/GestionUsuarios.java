@@ -140,4 +140,41 @@ public class GestionUsuarios {
             return TipoResultado.SIN_VALORES;
         }
     }
+    
+    public TipoResultado actualizarUsuario(String nombre, String edad, String email, String pass, String email_actual){
+//        if(validarDatosUsuario(email, pass))
+//        {
+        try
+        {
+            int iEdad2 = Integer.parseInt(edad);
+            if (daoUsuarioDAO.actualizarUsuario(new Persona(nombre, iEdad2, email, pass), email_actual))
+            {
+                return TipoResultado.OK;
+            }
+            else
+            {
+                return TipoResultado.USU_NOEXISTE;
+            }
+        }catch(NumberFormatException nfe){
+            System.out.println(nfe.getMessage());
+            return TipoResultado.OK;
+        }
+//        }
+//        else
+//        {
+//            return TipoResultado.SIN_VALORES;
+//        }
+    }
+    
+    public TipoResultado eliminarUsuario(String email){
+        if (daoUsuarioDAO.eliminarUsuario(email))
+        {
+            return TipoResultado.OK;
+        }
+        else
+        {
+            return TipoResultado.ERR_IO;
+        }
+    }
+            
 }

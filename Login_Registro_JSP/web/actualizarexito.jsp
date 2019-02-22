@@ -1,6 +1,6 @@
 <%-- 
-    Document   : registroexito
-    Created on : 22-feb-2019, 9:58:52
+    Document   : actualizarexito
+    Created on : 22-feb-2019, 14:00:38
     Author     : USUARIO
 --%>
 
@@ -9,10 +9,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Registro con Exito</title>
+        <title>JSP Page</title>
     </head>
     <body>
-        <h1>Registro con Exito</h1>
+        <h1>Actualizado con Exito</h1>
         <a href="index.jsp">Volver al Index</a>
     </body>
 </html>

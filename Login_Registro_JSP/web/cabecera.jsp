@@ -8,7 +8,7 @@
 <header><h1>Ejercicio Gestión de Usuarios</h1></header>
 <nav>
     <%
-        String[] urls = {"index.html","login.jsp","registro.jsp","act_registro.jsp","borrar_registro.jsp"};
+        String[] urls = {"index.jsp","login.jsp","registro.jsp","act_registro.jsp","borrar_registro.jsp"};
         String[] nombres = {"Index","Login","Registrarse","Actualizar Usuario","Borrar Usuario"};
         for(int i = 0; i < urls.length; i++)
         {

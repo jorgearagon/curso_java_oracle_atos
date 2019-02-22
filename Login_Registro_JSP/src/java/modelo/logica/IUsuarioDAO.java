@@ -15,4 +15,8 @@ public interface IUsuarioDAO {
     boolean guardarUsuario(Persona per);
     
     boolean leerUsuarios(String em, String pass);
+    
+    boolean actualizarUsuario(Persona per, String em_actual);
+    
+    boolean eliminarUsuario(String em);
 }
