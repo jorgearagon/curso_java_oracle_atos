@@ -17,8 +17,7 @@
                 <tr><td>Email:</td><td><input type="text" name="email" id="email" size="25" value="<%=session.getAttribute("email")%>" readonly="readonly"/></td></tr>
                 <tr><td>Metodo:</td><td><input type="text" name="metodo" id="metodo" size="25" value="DELETE" readonly="readonly"/></td></tr>
                 </table>
-            <input type="submit" value="Enviar"/>
-            <a href="registro">Registrarse</a>
+            <input type="submit" value="Eliminar"/>
         </form>
     </body>
 </html>

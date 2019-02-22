@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <div>TODO write content</div>
+        <div>GESTION USUARIOS</div>
         <h3><a href="login.jsp">Login</a></h3>
         <h3><a href="registro.jsp">Registro</a></h3>
         <% if (session.getAttribute("email")!=null){ %>
