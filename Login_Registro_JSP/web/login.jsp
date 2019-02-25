@@ -15,7 +15,6 @@
         <%@include file="cabecera.jsp" %>
         <%=dameTitulo("Introduce tus Datos")%>
         <% if(session.getAttribute("email") == null) {%>
-        <h1>Introduce tus datos</h1>
         <form name="form" method="post" action="procesar.do">
             <table border="1">
                 <tr><td>Email:</td><td><input type="text" name="email" id="email" size="25" value=""/></td></tr>

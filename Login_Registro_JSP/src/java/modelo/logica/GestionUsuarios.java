@@ -5,6 +5,7 @@
  */
 package modelo.logica;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import modelo.Persona;
@@ -17,6 +18,7 @@ import modelo.persistencia.JDBCUsuario;
  */
 public class GestionUsuarios {
     private static GestionUsuarios instancia=null;
+    private List<Persona> registros;
     private IUsuarioDAO daoUsuarioDAO = new JDBCUsuario();
 
     private GestionUsuarios() {
@@ -68,45 +70,52 @@ public class GestionUsuarios {
     }
     
     public TipoResultado guardarUsuario(String nombre, String edad, String email, String pass){
-        if(validarNombre(nombre))
+        try
         {
-            if(validarEdad(edad))
+            int iEdad = Integer.parseInt(edad);
+            if(validarNombre(nombre))
             {
-                if(validarEmail(email))
+                if(validarEdad(edad) && iEdad >= 18)
                 {
-                    if(validarPass(pass))
+                    if(validarEmail(email))
                     {
-                        //return TipoResultado.OK;
-                        int iEdad = Integer.parseInt(edad);
-//                        //this.per = new Persona(nombre, iEdad);
-                        if (daoUsuarioDAO.guardarUsuario(new Persona(nombre, iEdad, email, pass)))
+                        if(validarPass(pass))
                         {
-                            return TipoResultado.OK;
+                            //return TipoResultado.OK;
+
+    //                        //this.per = new Persona(nombre, iEdad);
+                            if (daoUsuarioDAO.guardarUsuario(new Persona(nombre, iEdad, email, pass)))
+                            {
+                                return TipoResultado.OK;
+                            }
+                            else
+                            {
+                                return TipoResultado.ERR_IO;
+                            }
                         }
                         else
                         {
-                            return TipoResultado.ERR_IO;
+                            return TipoResultado.PASS_MAL;
                         }
                     }
                     else
                     {
-                        return TipoResultado.PASS_MAL;
+                        return TipoResultado.EMAIL_MAL;
                     }
+
                 }
                 else
                 {
-                    return TipoResultado.EMAIL_MAL;
+                    return TipoResultado.EDAD_MAL;
                 }
-                
             }
             else
             {
-                return TipoResultado.EDAD_MAL;
+                return TipoResultado.NOM_MAL;
             }
-        }
-        else
-        {
-            return TipoResultado.NOM_MAL;
+        }catch(NumberFormatException nfe){
+            System.out.println(nfe.getMessage());
+            return TipoResultado.EDAD_MAL;
         }
         
     }
@@ -146,15 +155,16 @@ public class GestionUsuarios {
 //        {
         try
         {
+            int iEdad2 = Integer.parseInt(edad);
             if(validarNombre(nombre))
             {
-                if(validarEdad(edad))
+                if(validarEdad(edad) && iEdad2 >= 18)
                 {
                     if(validarEmail(email))
                     {
                         if(validarPass(pass))
                         {
-                            int iEdad2 = Integer.parseInt(edad);
+                            
                             if (daoUsuarioDAO.actualizarUsuario(new Persona(nombre, iEdad2, email, pass), email_actual))
                             {
                                 return TipoResultado.OK;
@@ -186,7 +196,7 @@ public class GestionUsuarios {
             }
         }catch(NumberFormatException nfe){
             System.out.println(nfe.getMessage());
-            return TipoResultado.OK;
+            return TipoResultado.EDAD_MAL;
         }
 //        }
 //        else
@@ -204,6 +214,11 @@ public class GestionUsuarios {
         {
             return TipoResultado.ERR_IO;
         }
+    }
+    
+    public List<Persona> listarUsuarios(){
+        registros=daoUsuarioDAO.listarUsuarios();
+        return registros;
     }
             
 }

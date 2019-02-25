@@ -89,7 +89,7 @@ public class Procesar extends HttpServlet {
                         break;
                 }       break;
             }
-            case "PUT":
+            case "PUT1":
             {
                 String nombre = request.getParameter("nombre");
                 String edad = request.getParameter("edad");
@@ -123,8 +123,52 @@ public class Procesar extends HttpServlet {
                         break;
                 }   break;
             }
-            case "DELETE":
+            case "PUT2":
             {
+                sesion.setAttribute("pers_act", request.getParameter("persona"));
+                request.getRequestDispatcher("actualizarcualquierusuario2.jsp").forward(request, response);
+                break;
+            }
+            case "PUT3":
+            {
+                String nombre = request.getParameter("nombre");
+                String edad = request.getParameter("edad");
+                String email = request.getParameter("email");
+                String pass = request.getParameter("pass");
+                String email_actual = request.getParameter("email_act");
+                GestionUsuarios gu = GestionUsuarios.getInstancia();
+                GestionUsuarios.TipoResultado resultado;
+                resultado=gu.actualizarUsuario(nombre, edad, email, pass, email_actual);
+                switch(resultado){
+                    case OK:
+                        //request.getSession().setAttribute("persona1", gp.getPersona());
+                        if(sesion.getAttribute("email")!=null)
+                        {
+                            sesion.removeAttribute("email");
+                            sesion.setAttribute("email", email);
+                        }
+                        request.getRequestDispatcher("actualizarexito.jsp").forward(request, response);
+                        break;
+                    case NOM_MAL:
+                            request.getRequestDispatcher("errornombre.jsp").forward(request, response);
+                            break;
+                    case EDAD_MAL:
+                        request.getRequestDispatcher("erroredad.jsp").forward(request, response);
+                        break;
+                    case ERR_IO:
+                        request.getRequestDispatcher("errorio.jsp").forward(request, response);
+                        break;
+                    case EMAIL_MAL:
+                        request.getRequestDispatcher("erroremail.jsp").forward(request, response);
+                        break;
+                    case PASS_MAL:
+                        request.getRequestDispatcher("errorpass.jsp").forward(request, response);
+                        break;
+                }   break;
+            }
+            case "DELETE1":
+            {
+                //BORRAR EL USUARIO LOGUEADO
                 String email = request.getParameter("email");
                 GestionUsuarios gu = GestionUsuarios.getInstancia();
                 GestionUsuarios.TipoResultado resultado;
@@ -139,7 +183,42 @@ public class Procesar extends HttpServlet {
                         request.getRequestDispatcher("errorio.jsp").forward(request, response);
                         break;
                 }   break;
-                }
+            }
+            case "DELETE2":
+            {
+                //BORRAR CUALQUIER USUARIO
+                String opcion_seleccionada=request.getParameter("persona");
+                GestionUsuarios gu = GestionUsuarios.getInstancia();
+                GestionUsuarios.TipoResultado resultado;
+                resultado=gu.eliminarUsuario(opcion_seleccionada);
+                switch(resultado){
+                    case OK:
+                        if(sesion.getAttribute("email")!=null)
+                        {
+                            sesion.removeAttribute("email");
+                        }
+                        request.getRequestDispatcher("eliminarexito.jsp").forward(request, response);
+                        break;
+                    case ERR_IO:
+                        request.getRequestDispatcher("errorio.jsp").forward(request, response);
+                        break;
+                }   break;
+                //BORRAR EL USUARIO LOGUEADO
+//                String email = request.getParameter("email");
+//                GestionUsuarios gu = GestionUsuarios.getInstancia();
+//                GestionUsuarios.TipoResultado resultado;
+//                resultado=gu.eliminarUsuario(email);
+//                switch(resultado){
+//                    case OK:
+//                        //request.getSession().setAttribute("persona1", gp.getPersona());
+//                        sesion.removeAttribute("email");
+//                        request.getRequestDispatcher("eliminarexito.jsp").forward(request, response);
+//                        break;
+//                    case ERR_IO:
+//                        request.getRequestDispatcher("errorio.jsp").forward(request, response);
+//                        break;
+//                }   break;
+            }
         }
     }
 

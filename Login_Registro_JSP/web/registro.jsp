@@ -18,7 +18,7 @@
         <form name="form" method="post" action="procesar.do">
             <table border="1">
                 <tr><td>Nombre:</td><td><input type="text" name="nom" id="nom" size="25" value=""/></td></tr>
-                <tr><td>Edad:</td><td><input type="number" name="eda" id="eda" size="25" value=""/></td></tr>
+                <tr><td>Edad(Mayor de 18):</td><td><input type="number" name="eda" id="eda" size="25" value=""/></td></tr>
                 <tr><td>Email:</td><td><input type="text" name="email" id="email" size="25" value=""/></td></tr>
                 <tr><td>Password:</td><td><input type="password" name="pass" id="pass" size="25" value="" required="required"/></td></tr>
                 <tr><td>Metodo:</td><td><input type="text" name="metodo" id="metodo" size="25" value="POST" readonly="readonly"/></td></tr>

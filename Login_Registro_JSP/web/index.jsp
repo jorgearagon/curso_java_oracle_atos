@@ -15,6 +15,8 @@
         <div>GESTION USUARIOS</div>
         <h3><a href="login.jsp">Login</a></h3>
         <h3><a href="registro.jsp">Registro</a></h3>
+        <h3><a href="eliminarcualquierusuario.jsp">Eliminar un Usuario</a></h3>
+        <h3><a href="actualizarcualquierusuario.jsp">Actualizar un Usuario</a></h3>
         <% if (session.getAttribute("email")!=null){ %>
         <h3><a href="actualizarusuario.jsp">Actualizar</a></h3>
         <h3><a href="eliminarusuario.jsp">Eliminar</a></h3>

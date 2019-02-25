@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Persona;
@@ -21,6 +23,7 @@ import modelo.logica.IUsuarioDAO;
  * @author USUARIO
  */
 public class JDBCUsuario implements IUsuarioDAO{
+    private List<Persona> lp = new ArrayList();
     
     public JDBCUsuario() {
         try{
@@ -34,17 +37,13 @@ public class JDBCUsuario implements IUsuarioDAO{
     @Override
     public boolean guardarUsuario(Persona per) {
         try (Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/UsuariosDB", "test", "test")) {
-            String query = "SELECT COUNT(Id) as ultId FROM Usuarios";
+            String query = "SELECT Id FROM Usuarios order by Id asc";
             PreparedStatement pstmt = con.prepareStatement(query);
             ResultSet rs=pstmt.executeQuery();
-            int ultId;
-            if (rs.next()) {
-                ultId = rs.getInt("ultId");
+            int ultId=1;
+            while (rs.next()) {
+                ultId = rs.getInt("Id");
                 ultId++;
-            }
-            else
-            {
-                ultId = 1;
             }
             query = "Insert into Usuarios values(?,?,?,?,?)";
             //PreparedStatement pstmt = con.prepareStatement(query);
@@ -118,6 +117,29 @@ public class JDBCUsuario implements IUsuarioDAO{
         }catch(SQLException e){
             return false;
         }
+    }
+
+    @Override
+    public List<Persona> listarUsuarios() {
+        try (Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/UsuariosDB", "test", "test")) {
+            lp.clear();
+            Statement st=con.createStatement();
+            ResultSet rs=st.executeQuery("SELECT * FROM Usuarios");
+            String nombre, email, pass="";
+            int edad=0;
+            while(rs.next())
+            {
+                nombre=rs.getString(2);
+                edad=rs.getInt(3);
+                email=rs.getString(4);
+                pass=rs.getString(5);
+                lp.add(new Persona(nombre, edad, email, pass));
+            }
+            return lp;
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            return lp;
+        } 
     }
     
 }

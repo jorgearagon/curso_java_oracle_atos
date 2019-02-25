@@ -4,6 +4,8 @@
     Author     : USUARIO
 --%>
 
+<%@page import="modelo.Persona"%>
+<%@page import="modelo.logica.GestionUsuarios"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,7 +21,7 @@
         <form name="form1" method="post" action="procesar.do">
             <table border="1">
                 <tr><td>Email:</td><td><input type="text" name="email" id="email" size="25" value="<%=session.getAttribute("email")%>" readonly="readonly"/></td></tr>
-                <tr><td>Metodo:</td><td><input type="text" name="metodo" id="metodo" size="25" value="DELETE" readonly="readonly"/></td></tr>
+                <tr><td>Metodo:</td><td><input type="text" name="metodo" id="metodo" size="25" value="DELETE1" readonly="readonly"/></td></tr>
                 </table>
             <input type="submit" value="Eliminar"/>
         </form>

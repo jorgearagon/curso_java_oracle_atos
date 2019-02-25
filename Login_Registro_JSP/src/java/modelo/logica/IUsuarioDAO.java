@@ -5,6 +5,7 @@
  */
 package modelo.logica;
 
+import java.util.List;
 import modelo.Persona;
 
 /**
@@ -19,4 +20,6 @@ public interface IUsuarioDAO {
     boolean actualizarUsuario(Persona per, String em_actual);
     
     boolean eliminarUsuario(String em);
+    
+    List<Persona> listarUsuarios();
 }

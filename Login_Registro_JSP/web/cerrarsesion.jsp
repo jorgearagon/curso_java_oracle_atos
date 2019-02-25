@@ -17,6 +17,11 @@
                 session.removeAttribute("email");%>
                 <h3>Has cerrado sesion con exito</h3>
                 <a href="index.jsp">Volver al Index</a>
-        <%    }%>
+        <%    }
+        else
+        {%>
+            <h3>No has iniciado sesion todavía</h3>
+            <a href="index.jsp">Volver al Index</a>
+            <%} %>
     </body>
 </html>
