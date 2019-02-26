@@ -8,6 +8,7 @@ package controladores;
 import modelo.logica.ServicioUsuarios;
 import util.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -49,6 +50,8 @@ public class UsuariosServlet extends HttpServlet {
         String password = p_password != null && !p_password.isEmpty() ? p_password : ck_password;
         Usuario usuario = ServicioUsuarios.getInstancia().obtenerUno(email);
         request.getSession().setAttribute("usuario", usuario);
+        ArrayList<Usuario> arra_usu = new ArrayList<>();
+        
         //Usuario usuario = null;
         if(ServicioUsuarios.getInstancia().validaLoginUsuario(email, password) == ServicioUsuarios.Resultado.Ok)
         {
@@ -63,10 +66,14 @@ public class UsuariosServlet extends HttpServlet {
                 case "GET":
                     if (email.isEmpty())//Si no pide usuario, listamos todos
                     {
+                        arra_usu=ServicioUsuarios.getInstancia().obtenerTodos();
+                        request.getSession().setAttribute("arra_usu", arra_usu);
                         request.getRequestDispatcher("listar.jsp").forward(request, response);
                     }
                     else
                     {
+                        arra_usu=ServicioUsuarios.getInstancia().obtenerTodos();
+                        request.getSession().setAttribute("arra_usu", arra_usu);
                         request.getRequestDispatcher("index.jsp").forward(request, response);
                     }
                     break;
@@ -75,10 +82,14 @@ public class UsuariosServlet extends HttpServlet {
                     switch(metodo){
                         case "PUT"://Modificar
                             ServicioUsuarios.getInstancia().modificar(id, nom, edad, email, password);
+                            arra_usu=ServicioUsuarios.getInstancia().obtenerTodos();
+                            request.getSession().setAttribute("arra_usu", arra_usu);
                             request.getRequestDispatcher("listar.jsp").forward(request, response);
                             break;
                         case "DELETE":
                             ServicioUsuarios.getInstancia().eliminar(email);
+                            arra_usu=ServicioUsuarios.getInstancia().obtenerTodos();
+                            request.getSession().setAttribute("arra_usu", arra_usu);
                             request.getRequestDispatcher("listar.jsp").forward(request, response);
                             break;
                     }
@@ -94,6 +105,8 @@ public class UsuariosServlet extends HttpServlet {
                         case Ok:
                             usuario = ServicioUsuarios.getInstancia().obtenerUno(email);
                             request.getSession().setAttribute("usuario", usuario);//Guardamos un JavaBean
+                            arra_usu=ServicioUsuarios.getInstancia().obtenerTodos();
+                            request.getSession().setAttribute("arra_usu", arra_usu);
                             request.getRequestDispatcher("registrado.jsp").forward(request, response);
                             break;
                         case CamposMal:
