@@ -55,21 +55,21 @@ public class Main {
         System.out.println("Probando modulo modelo:");
         System.out.println("DATOS NO VALIDOS");
         mostrarResultado(ServicioUsuarios.getInstancia().add("Aaaa Aaaa", "10", "", ""),
-                "Usuario no válido");
+                "Usuario no válido: ");
         mostrarResultado(ServicioUsuarios.getInstancia().add("Aaaa Aaaa", "20", "xx@xx", ""),
-                "Usuario no válido");
+                "Usuario no válido: ");
         mostrarResultado(ServicioUsuarios.getInstancia().add("Aaaa Aaaa", "22", "aaa@aaa.com", ""),
-                "Usuario no válido");
+                "Usuario no válido: ");
         System.out.println("DATOS VALIDOS");
         mostrarResultado(ServicioUsuarios.getInstancia().add("Aaaa Aaaa", "22", "aaa@aaa.com", "aaa"),
-                "Usuario válido");
+                "Usuario válido: ");
         mostrarResultado(ServicioUsuarios.getInstancia().add("Bbbb Bbbb", "33", "bbb@bbb.com", "bbb"),
-                "Usuario válido");
+                "Usuario válido: ");
         mostrarResultado(ServicioUsuarios.getInstancia().add("Cccc Cccc", "44", "ccc@ccc.com", "ccc"),
-                "Usuario válido");
+                "Usuario válido: ");
         listar();
         mostrarResultado(ServicioUsuarios.getInstancia().add("Cccc Cccc", "44", "ccc@ccc.com", "ccc"),
-                "Usuario REPETIDO");
+                "Usuario REPETIDO: ");
         Usuario usu = ServicioUsuarios.getInstancia().obtenerUno("ccc@ccc.com");
         mostrarResultado(ServicioUsuarios.getInstancia().modificar(usu.getId(),"CcccMM CcccMM", "55", "ccc@ccc.com", "ccc"),
                 "modificar CcccMM CcccMM");

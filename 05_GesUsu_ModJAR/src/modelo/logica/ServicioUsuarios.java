@@ -27,20 +27,23 @@ public class ServicioUsuarios {
     }
     
     public Usuario crearUsuarioValido(int id, String nom, String strEdad, String email, String password){
-        int iEdad = 0;
-        if(strEdad.matches("^[1-9][0-9]*$"))
+        if(!nom.isEmpty() && !strEdad.isEmpty() && !email.isEmpty() && !password.isEmpty())
         {
-            try{
-                iEdad = Integer.parseInt(strEdad);
-                if(iEdad>18)
-                {
-                    if(email.matches("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$"))
+            if(strEdad.matches("^[1-9][0-9]*$"))
+            {
+                try{
+                    int iEdad = 0;
+                    iEdad = Integer.parseInt(strEdad);
+                    if(iEdad>18)
                     {
-                        return new Usuario(id, nom, iEdad, email, password);
+                        if(email.matches("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$"))
+                        {
+                            return new Usuario(id, nom, iEdad, email, password);
+                        }
                     }
+                }catch(NumberFormatException nfe){
+                    return null;
                 }
-            }catch(NumberFormatException nfe){
-                
             }
         }
         return null;
@@ -73,11 +76,15 @@ public class ServicioUsuarios {
     }
     
     public Usuario obtenerUno(String email){
+        if(!email.isEmpty())
+        {
+            return this.persistencia.obtenerUno(email);
+        }
         return null;
     }
     
     public Resultado modificar(int id, String nom, String strEdad, String email, String passwd){
-        Usuario nuevoUsu = crearUsuarioValido(0, nom, strEdad, email, passwd);
+        Usuario nuevoUsu = crearUsuarioValido(id, nom, strEdad, email, passwd);
         if (nuevoUsu!=null) 
         {
             if(this.persistencia.modificar(nuevoUsu))
@@ -96,11 +103,40 @@ public class ServicioUsuarios {
     }
     
     public Resultado eliminar(String email){
-        return Resultado.CamposMal;
+        if(!email.isEmpty())
+        {
+            if(this.persistencia.eliminar(email))
+            {
+                return Resultado.Ok;
+            }
+            else
+            {
+                return Resultado.ErrorDB;
+            }
+        }
+        else
+        {
+            return Resultado.CamposMal;
+        }   
     }
     
     public Resultado validaLoginUsuario(String email, String password){
-        return Resultado.NoLogin;
+        if(!email.isEmpty() && !password.isEmpty())
+        {
+            for(Usuario usu : obtenerTodos())
+            {
+                if (usu.getEmail().equals(email) && usu.getPassword().equals(password)) 
+                {
+                    return Resultado.Ok;
+                }
+            }
+            return Resultado.NoLogin;
+        }
+        else
+        {
+            return Resultado.CamposMal;
+        }
+        
     }
 
    /* public Resultado add(String nom, int edad, String email, String passwd) {
@@ -113,17 +149,17 @@ public class ServicioUsuarios {
             return Resultado.CamposMal;
         }
     }*/
-    public ArrayList<Usuario> listar() {
-        return persistencia.obtenerTodos();
-    }
+//    public ArrayList<Usuario> listar() {
+//        return persistencia.obtenerTodos();
+//    }
 
-    public Usuario validacionPasswd(String email, String passwd) {
-        ArrayList<Usuario> todosUsuarios = persistencia.obtenerTodos();
-        for (Usuario usuario : todosUsuarios) {
-            if (usuario.getEmail().equals(email) && usuario.getPassword().equals(passwd)) {
-                return usuario;
-            }
-        }
-        return null;
-    }
+//    public Usuario validacionPasswd(String email, String passwd) {
+//        ArrayList<Usuario> todosUsuarios = persistencia.obtenerTodos();
+//        for (Usuario usuario : todosUsuarios) {
+//            if (usuario.getEmail().equals(email) && usuario.getPassword().equals(passwd)) {
+//                return usuario;
+//            }
+//        }
+//        return null;
+//    }
 }

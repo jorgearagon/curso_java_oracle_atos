@@ -64,7 +64,7 @@ public class DerbyDBUsuario implements IUsuarioDAO {
                 String nombre = res.getString("nombre");
                 int edad = res.getInt("edad");
                 String email = res.getString("email");
-                String password = res.getString("password");
+                String password = res.getString("pass");
                 Usuario usu = new Usuario(id, nombre, edad, email, password);
                 listaUsuarios.add(usu);
             }
@@ -87,7 +87,7 @@ public class DerbyDBUsuario implements IUsuarioDAO {
                 String nombre = res.getString("nombre");
                 int edad = res.getInt("edad");
                 String email = res.getString("email");
-                String password = res.getString("password");
+                String password = res.getString("pass");
                 usu = new Usuario(id, nombre, edad, email, password);
             }
             return usu;
@@ -110,7 +110,7 @@ public class DerbyDBUsuario implements IUsuarioDAO {
                 String nombre = res.getString("nombre");
                 int edad = res.getInt("edad");
                 //String email = res.getString("email");
-                String password = res.getString("password");
+                String password = res.getString("pass");
                 usu = new Usuario(id, nombre, edad, email, password);
             }
             return usu;
@@ -137,7 +137,7 @@ public class DerbyDBUsuario implements IUsuarioDAO {
     public boolean modificar(Usuario usuario) {
         try (Connection con = DriverManager.getConnection(
                 Constantes.CONEX_DERBY_DB,Constantes.USUARIO_DERBY_DB,Constantes.PASSWD_DERBY_DB )) {
-            String squery = "UPDATE usuarios SET nombre=?, edad=?, email=?, pass=?, WHERE id=?";
+            String squery = "UPDATE usuarios SET nombre=?, edad=?, email=?, pass=? WHERE id=?";
             PreparedStatement pstmt = con.prepareStatement(squery);
             pstmt.setString(1, usuario.getNombre());
             pstmt.setInt(2, usuario.getEdad());
