@@ -27,7 +27,8 @@
             <%--<jsp:getProperty property="id" name="usuario"></jsp:getProperty>
             <jsp:getProperty property="email" name="usuario"></jsp:getProperty>--%>
         </jsp:useBean>
-            <a href="listar.jsp">Listar</a>   
+            <a href="listar.jsp">Listar</a>
+            <a href="listarsql.jsp">Listar SQL</a>
             <a href="eliminar.jsp">Eliminar</a>
             <form action="usuarios.do" style="display: inline-block">
                 <input id="email" name="email" type="hidden" value="LOGOUT"/>

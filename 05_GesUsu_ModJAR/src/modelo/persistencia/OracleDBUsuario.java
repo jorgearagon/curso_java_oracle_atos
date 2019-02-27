@@ -14,9 +14,8 @@ import util.Constantes;
  *
  * @author USUARIO
  */
-public class DerbyDBUsuario extends BaseDBUsuario{
-
-    public DerbyDBUsuario() {
+public class OracleDBUsuario extends BaseDBUsuario{
+    public OracleDBUsuario() {
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
