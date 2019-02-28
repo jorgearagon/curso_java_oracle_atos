@@ -23,6 +23,7 @@ public class DerbyDBUsuario extends BaseDBUsuario{
             this.conexionDB = Constantes.CONEX_DERBY_DB;
             this.usuarioDB = Constantes.USUARIO_DERBY_DB;
             this.passwordDB = Constantes.PASSWD_DERBY_DB;
+            this.tableDB = Constantes.TABLE_DERBY_DB;
         } catch (Exception ex) {
             Logger.getLogger(DerbyDBUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }

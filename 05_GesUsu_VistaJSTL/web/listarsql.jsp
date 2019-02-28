@@ -12,13 +12,14 @@
         -->
         <%@include file="header.jsp" %>
         <h1>Todos los usuarios con SQL</h1>
-        
-        <sql:setDataSource var = "arra_usu" driver = "org.apache.derby.jdbc.ClientDriver"
-            url = "jdbc:derby://localhost:1527/UsuariosDB"
-            user = "test"  password = "test"/>
+        <%--Para usar la base de datos de derby habria que cambiar tanto el driver como la url, user and password--%>
+        <sql:setDataSource var = "arra_usu" driver = "oracle.jdbc.driver.OracleDriver"
+            url = "jdbc:oracle:thin:@192.168.0.226:1521:XE"
+            user = "system"  password = "oracle"/>
         
         <sql:query dataSource = "${arra_usu}" var = "result">
-            SELECT * FROM Usuarios
+            <%--SELECT * FROM Usuarios--%>
+            SELECT * FROM L_USUARIO
         </sql:query>
         <div border="2">
             <c:forEach var = "row" items = "${result.rows}">
@@ -27,7 +28,7 @@
                     <input id="nombre" name="nombre" type="text" required="true" value="<c:out value = "${row.nombre}"/>"/>
                     <input id="edad" name="edad" type="number" required="true"  size="4" value="<c:out value = "${row.edad}"/>"/>
                     <input id="email" name="email" type="email" required="true" value="<c:out value = "${row.email}"/>"/>
-                    <input id="password" name="password" type="password" required="true" value="<c:out value = "${row.pass}"/>"/>
+                    <input id="password" name="password" type="password" required="true" value="<c:out value = "${row.password}"/>"/>
                     <input class="method" id="method" name="method" type="text" size="4" readonly="true" value="PUT"/>
 
                     <input type="submit" value="EDIT" onclick="Array.from(document.getElementsByClassName('method')).forEach((thisInput) => { thisInput.value='PUT'; })"/>

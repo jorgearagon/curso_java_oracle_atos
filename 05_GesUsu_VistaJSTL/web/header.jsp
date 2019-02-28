@@ -29,6 +29,7 @@
         </jsp:useBean>
             <a href="listar.jsp">Listar</a>
             <a href="listarsql.jsp">Listar SQL</a>
+            <a href="listaroracle.jsp">Listar ORACLE</a>
             <a href="eliminar.jsp">Eliminar</a>
             <form action="usuarios.do" style="display: inline-block">
                 <input id="email" name="email" type="hidden" value="LOGOUT"/>

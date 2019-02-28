@@ -24,13 +24,14 @@ public class BaseDBUsuario implements IUsuarioDAO{
     protected String conexionDB;
     protected String usuarioDB;
     protected String passwordDB;
+    protected String tableDB;
     @Override
     public boolean crear(Usuario persona) {
 
         try (Connection con = DriverManager.getConnection(
                 conexionDB,usuarioDB,passwordDB )) {
             
-            String squery  = "INSERT INTO usuarios (Nombre, Edad, email, pass) VALUES(" 
+            String squery  = "INSERT INTO " + tableDB + " (Nombre, Edad, email, password) VALUES(" 
                         + "'" + persona.getNombre() + "', "
                         + persona.getEdad() + ", '" + persona.getEmail() + "', '" + persona.getPassword() + "')";
             Statement stmt = con.createStatement();
@@ -47,7 +48,7 @@ public class BaseDBUsuario implements IUsuarioDAO{
                 conexionDB,usuarioDB,passwordDB )) {
             
             ArrayList<Usuario> listaUsuarios = new ArrayList<>();
-            String squery = "SELECT id, nombre, edad, email, pass FROM Usuarios";
+            String squery = "SELECT id, nombre, edad, email, password FROM " + tableDB;
             Statement stmt = con.createStatement();
             ResultSet res = stmt.executeQuery(squery);
             while (res.next()) { 
@@ -55,7 +56,7 @@ public class BaseDBUsuario implements IUsuarioDAO{
                 String nombre = res.getString("nombre");
                 int edad = res.getInt("edad");
                 String email = res.getString("email");
-                String password = res.getString("pass");
+                String password = res.getString("password");
                 Usuario usu = new Usuario(id, nombre, edad, email, password);
                 listaUsuarios.add(usu);
             }
@@ -71,14 +72,14 @@ public class BaseDBUsuario implements IUsuarioDAO{
                 conexionDB,usuarioDB,passwordDB )) {
             
             Usuario usu = null;
-            String squery = "SELECT nombre, edad, email, pass FROM Usuarios WHERE Id=" + id;
+            String squery = "SELECT nombre, edad, email, password FROM " + tableDB + " WHERE Id=" + id;
             Statement stmt = con.createStatement();
             ResultSet res = stmt.executeQuery(squery);
             if (res.next()) { 
                 String nombre = res.getString("nombre");
                 int edad = res.getInt("edad");
                 String email = res.getString("email");
-                String password = res.getString("pass");
+                String password = res.getString("password");
                 usu = new Usuario(id, nombre, edad, email, password);
             }
             return usu;
@@ -93,7 +94,7 @@ public class BaseDBUsuario implements IUsuarioDAO{
                 conexionDB,usuarioDB,passwordDB )) {
             
             Usuario usu = null;
-            String squery = "SELECT id, nombre, edad, email, pass FROM Usuarios WHERE email='"+email+"'";
+            String squery = "SELECT id, nombre, edad, email, password FROM " + tableDB + " WHERE email='"+email+"'";
             Statement stmt = con.createStatement();
             ResultSet res = stmt.executeQuery(squery);
             if (res.next()) { 
@@ -101,7 +102,7 @@ public class BaseDBUsuario implements IUsuarioDAO{
                 String nombre = res.getString("nombre");
                 int edad = res.getInt("edad");
                 //String email = res.getString("email");
-                String password = res.getString("pass");
+                String password = res.getString("password");
                 usu = new Usuario(id, nombre, edad, email, password);
             }
             return usu;
@@ -114,7 +115,7 @@ public class BaseDBUsuario implements IUsuarioDAO{
     public boolean eliminar(String email) {
         try (Connection con = DriverManager.getConnection(
                 conexionDB,usuarioDB,passwordDB )) {
-            String squery = "DELETE FROM usuarios WHERE email=?";
+            String squery = "DELETE FROM " + tableDB + " WHERE email=?";
             PreparedStatement pstmt = con.prepareStatement(squery);
             pstmt.setString(1, email);
             pstmt.executeUpdate();
@@ -128,7 +129,7 @@ public class BaseDBUsuario implements IUsuarioDAO{
     public boolean modificar(Usuario usuario) {
         try (Connection con = DriverManager.getConnection(
                 conexionDB,usuarioDB,passwordDB )) {
-            String squery = "UPDATE usuarios SET nombre=?, edad=?, email=?, pass=? WHERE id=?";
+            String squery = "UPDATE " + tableDB + " SET nombre=?, edad=?, email=?, password=? WHERE id=?";
             PreparedStatement pstmt = con.prepareStatement(squery);
             pstmt.setString(1, usuario.getNombre());
             pstmt.setInt(2, usuario.getEdad());
