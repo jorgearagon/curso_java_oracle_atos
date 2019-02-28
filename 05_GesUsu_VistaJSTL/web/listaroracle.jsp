@@ -32,7 +32,7 @@
                 Nota minima: ${param.nota}
                 <sql:query dataSource = "${arra_usu}" var = "result">
                     <%--SELECT * FROM Usuarios--%>
-                    SELECT * FROM USUARIO WHERE NOTA > <%=request.getParameter("nota")%>
+                    SELECT * FROM USUARIO WHERE NOTA > ${param.nota}
                 </sql:query>
             </c:otherwise>
         </c:choose>
